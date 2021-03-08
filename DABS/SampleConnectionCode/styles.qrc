@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/images">
+    <file>rc/dabs2.png</file>
+    </qresource>
+</RCC>
