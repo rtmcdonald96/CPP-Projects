@@ -1,0 +1,53 @@
+#pragma once
+
+#include <memory>    // std::unique_ptr
+
+#include "Domain/DataSets/Inventory.hpp"
+#include "Domain/DataSets/InventoryHandler.hpp"
+#include "Domain/DataSets/CustomerInfoHandler.h"
+#include "Domain/DataSets/CustomerInfo.h"
+#include "TechnicalServices/Logging/LoggerHandler.hpp"
+#include "TechnicalServices/Persistence/PersistenceHandler.hpp"
+
+#include "UI/UserInterfaceHandler.hpp"
+
+
+
+
+namespace UI
+{
+  /*****************************************************************************
+  ** Simple UI definition
+  **   Simple UI is a console application meant only as a driver to the Domain Layer
+  **   application. This UI will someday be replaced by a more sophisticated, user
+  **   friendly implementation
+  ******************************************************************************/
+  class SimpleUI : public UI::UserInterfaceHandler
+  {
+    public:
+      // Constructors
+      SimpleUI();
+
+
+      // Operations
+      void launch() override;
+
+
+      // Destructor
+      ~SimpleUI() noexcept override;
+
+
+    private:
+      // These smart pointers hold pointers to lower architectural layer's interfaces
+
+      std::unique_ptr<TechnicalServices::Logging::LoggerHandler>            _loggerPtr;
+      TechnicalServices::Persistence::PersistenceHandler                  & _persistentData;
+      std::vector<TechnicalServices::Persistence::itemLine>                 _inventory;
+      Domain::DataSets::Inventory                                           testINV;
+      Domain::DataSets::CustomerInfo                                        _customers;
+
+      // convenience reference object enabling standard insertion syntax
+      // This line must be physically after the definition of _loggerPtr
+      TechnicalServices::Logging::LoggerHandler                            & _logger = *_loggerPtr;
+  };
+} // namespace UI
